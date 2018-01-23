@@ -1,0 +1,80 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lomoye.lion.core.dao.UserMapper">
+    <sql id="condition">
+        <where>
+            <if test="condition.id != null">
+                id = #{condition.id}
+            </if>
+            <if test="condition.nick != null">
+                AND nick = #{condition.nick}
+            </if>
+            <if test="condition.mobile != null">
+                AND mobile = #{condition.mobile}
+            </if>
+            <if test="condition.password != null">
+                AND password = #{condition.password}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="selectAllField">
+        select id,nick,mobile,password,icon,create_time,modify_time from `user`
+    </sql>
+
+    <select id="selectWithPage" parameterType="Map" resultType="User">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.paged"/>
+    </select>
+
+    <select id="selectByCondition" parameterType="Map" resultType="User">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.orderby"/>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="Long" resultType="User">
+        <include refid="selectAllField"/>
+        where id=#{key}
+    </select>
+
+    <select id="selectOne" parameterType="Map" resultType="User">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="selectCount" parameterType="Map" resultType="long">
+        select count(*) from `user`
+        <include refid="condition"/>
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="User">
+        insert into `user`
+        (nick,mobile,password,icon,create_time,modify_time)
+        VALUES
+        (#{nick},#{mobile},#{password},#{icon},#{createTime},#{modifyTime})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="User">
+        update `user` set
+        nick=#{nick},
+        mobile=#{mobile},
+        password=#{password},
+        icon=#{icon},
+        modify_time=#{modifyTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+        delete from `user`
+        where id = #{key}
+    </delete>
+
+    <delete id="deleteByCondition" parameterType="Map">
+        delete from `user`
+        <include refid="condition"/>
+    </delete>
+</mapper>
