@@ -4,19 +4,16 @@ import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.lomoye.common.dto.ResultData;
 import com.lomoye.common.exception.BusinessException;
-
 import com.lomoye.lion.core.constant.ErrorCode;
-import com.lomoye.lion.core.constant.SessionConstant;
 import com.lomoye.lion.core.domain.User;
-
-
 import com.lomoye.lion.core.manager.UserManager;
-
-
 import com.lomoye.lion.core.util.MobileCheckUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +30,7 @@ import java.util.UUID;
  * Created by lomoye on 2017/6/12.
  * 测试用
  */
-@Controller
+@RestController
 @Scope(WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping("/api/user")
 public class UserController extends BaseController {
@@ -41,7 +38,6 @@ public class UserController extends BaseController {
     private UserManager userManager;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @ResponseBody
     ResultData<User> getUser(HttpServletRequest request) {
         User user = getSessionUser(request);
         user.setPassword(null);
@@ -49,7 +45,6 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
     ResultData<Void> registerUser(HttpServletRequest request, @RequestBody User user) {
         if (user == null) {
             LOGGER.info("registerUser|no user");
@@ -79,8 +74,7 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    ResultData<User> userLogin(HttpServletRequest request, @RequestBody User user) {
+    ResultData<Boolean> userLogin(HttpServletRequest request, @RequestBody User user) {
         if (user == null) {
             LOGGER.info("userLogin|no user");
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "用户不能为空");
@@ -95,20 +89,20 @@ public class UserController extends BaseController {
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "密码不能为空");
         }
 
-        User selectUser = userManager.findByMobileAndPassword(user.getMobile(), user.getPassword());
-        if (selectUser == null) {
-            LOGGER.info("userLogin|no selectUser");
-            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "用户名或者密码错误");
+        Subject currentUser = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getMobile(), user.getPassword());
+        try {
+            currentUser.login(token);
+            return new ResultData<>(true);
+        } catch (AuthenticationException e) {
+            return new ResultData<>(false);
         }
 
-        //将用户放入session中
-        request.getSession().setAttribute(SessionConstant.USER, selectUser);
 
-        return new ResultData<>(selectUser);
+
     }
 
     @RequestMapping(value = "/icon", method = RequestMethod.POST)
-    @ResponseBody
     ResultData<Boolean> uploadIcon(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) {
         User user = getSessionUser(request);
         if (file == null) {
@@ -143,7 +137,6 @@ public class UserController extends BaseController {
             LOGGER.warn("upload user icon io error.|userId={}", user.getId(), e);
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "上传图片失败");
         }
-
 
         return new ResultData<>(true);
     }
