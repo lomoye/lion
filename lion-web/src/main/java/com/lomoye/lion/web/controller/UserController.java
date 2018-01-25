@@ -97,9 +97,6 @@ public class UserController extends BaseController {
         } catch (AuthenticationException e) {
             return new ResultData<>(false);
         }
-
-
-
     }
 
     @RequestMapping(value = "/icon", method = RequestMethod.POST)

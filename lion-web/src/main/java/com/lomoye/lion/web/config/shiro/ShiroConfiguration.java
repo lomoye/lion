@@ -1,11 +1,13 @@
 package com.lomoye.lion.web.config.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
@@ -35,7 +37,7 @@ public class ShiroConfiguration {
         //Shiro的核心安全接口,这个属性是必须的
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filterMap = new LinkedHashMap<>();
-        filterMap.put("authc", new AjaxPermissionsAuthorizationFilter());
+        filterMap.put("user", new AjaxPermissionsAuthorizationFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         /*定义shiro过滤链  Map结构
          * Map中key(xml中是指value值)的第一个'/'代表的路径是相对于HttpServletRequest.getContextPath()的值来的
@@ -50,10 +52,31 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/api/user/register", "anon");
         filterChainDefinitionMap.put("/error", "anon");
-        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
+
+
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sm = new DefaultWebSessionManager();
+        sm.setGlobalSessionTimeout(1800000);
+        sm.setSessionIdCookie(sessionIdCookie());
+        sm.setSessionIdUrlRewritingEnabled(false);
+        return sm;
+    }
+
+
+
+    @Bean(name = "sessionIdCookie")
+    public SimpleCookie sessionIdCookie() {
+        SimpleCookie simpleCookie = new SimpleCookie("uid");
+        simpleCookie.setHttpOnly(true);
+        simpleCookie.setMaxAge(43200);//12小时
+        return simpleCookie;
+    }
+
 
     /**
      * 不指定名字的话，自动创建一个方法名第一个字母小写的bean
@@ -62,6 +85,7 @@ public class ShiroConfiguration {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
