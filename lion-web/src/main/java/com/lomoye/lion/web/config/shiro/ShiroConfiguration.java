@@ -37,7 +37,7 @@ public class ShiroConfiguration {
         //Shiro的核心安全接口,这个属性是必须的
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filterMap = new LinkedHashMap<>();
-        filterMap.put("user", new AjaxPermissionsAuthorizationFilter());
+        filterMap.put("authc", new AjaxPermissionsAuthorizationFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
         /*定义shiro过滤链  Map结构
          * Map中key(xml中是指value值)的第一个'/'代表的路径是相对于HttpServletRequest.getContextPath()的值来的
@@ -52,7 +52,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/api/user/register", "anon");
         filterChainDefinitionMap.put("/error", "anon");
-        filterChainDefinitionMap.put("/**", "user");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -61,7 +61,7 @@ public class ShiroConfiguration {
     @Bean(name = "sessionManager")
     public DefaultWebSessionManager sessionManager() {
         DefaultWebSessionManager sm = new DefaultWebSessionManager();
-        sm.setGlobalSessionTimeout(1800000);
+        sm.setGlobalSessionTimeout(30 * 24 * 60 * 60);
         sm.setSessionIdCookie(sessionIdCookie());
         sm.setSessionIdUrlRewritingEnabled(false);
         return sm;
@@ -73,7 +73,7 @@ public class ShiroConfiguration {
     public SimpleCookie sessionIdCookie() {
         SimpleCookie simpleCookie = new SimpleCookie("uid");
         simpleCookie.setHttpOnly(true);
-        simpleCookie.setMaxAge(43200);//12小时
+        simpleCookie.setMaxAge(7 * 24 * 60 * 60);
         return simpleCookie;
     }
 
@@ -94,27 +94,21 @@ public class ShiroConfiguration {
      */
     @Bean
     public UserRealm userRealm() {
-        return new UserRealm();
+        UserRealm userRealm = new UserRealm();
+        userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return userRealm;
     }
 
-    /**
-     * 凭证匹配器
-     * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了
-     * 所以我们需要修改下doGetAuthenticationInfo中的代码;
-     * ）
-     * 可以扩展凭证匹配器，实现 输入密码错误次数后锁定等功能，下一次
-     */
-    @Bean(name = "credentialsMatcher")
+
+    @Bean(name = "hashedCredentialsMatcher")
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        //散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        //散列的次数，比如散列两次，相当于 md5(md5(""));
-        hashedCredentialsMatcher.setHashIterations(2);
-        //storedCredentialsHexEncoded默认是true，此时用的是密码加密用的是Hex编码；false时用Base64编码
-        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
-        return hashedCredentialsMatcher;
+        HashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher();
+        credentialsMatcher.setHashAlgorithmName("MD5");
+        credentialsMatcher.setHashIterations(2);
+        credentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return credentialsMatcher;
     }
+
 
     /**
      * Shiro生命周期处理器

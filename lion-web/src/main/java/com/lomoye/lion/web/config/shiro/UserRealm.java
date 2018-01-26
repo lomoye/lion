@@ -9,6 +9,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,8 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         String mobile = (String) authcToken.getPrincipal();
-        // 获取用户密码
-        String password = new String((char[]) authcToken.getCredentials());
 
-        User user = userManager.findByMobileAndPassword(mobile, password);
+        User user = userManager.findByMobile(mobile);
         if (user == null) {
             //没找到帐号
             throw new UnknownAccountException();
@@ -55,7 +54,7 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user.getMobile(),
                 user.getPassword(),
-                //ByteSource.Util.bytes("salt"), salt=username+salt,采用明文访问时，不需要此句
+                ByteSource.Util.bytes("salt"), //salt=username+salt,采用明文访问时，不需要此句
                 getName()
         );
         //session中不需要保存密码
@@ -64,4 +63,14 @@ public class UserRealm extends AuthorizingRealm {
         SecurityUtils.getSubject().getSession().setAttribute(SessionConstant.USER, user);
         return authenticationInfo;
     }
+
+
+//    /**
+//     * 密码生成方法
+//     * @param args
+//     */
+//    public static void main(String[] args) {
+//        Hash hash=new SimpleHash("MD5", new SimpleByteSource("qaz6363"),new SimpleByteSource("salt"),2);
+//        System.out.println(hash.toHex());
+//    }
 }

@@ -10,6 +10,7 @@ import com.lomoye.lion.core.manager.UserManager;
 import com.lomoye.lion.core.util.MobileCheckUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,9 @@ public class UserController extends BaseController {
             currentUser.login(token);
             return new ResultData<>(true);
         } catch (AuthenticationException e) {
+            if (e instanceof ExcessiveAttemptsException) {
+                throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "密码错误次数超过5次,您的账户将被锁定1小时");//todo 常量
+            }
             return new ResultData<>(false);
         }
     }
