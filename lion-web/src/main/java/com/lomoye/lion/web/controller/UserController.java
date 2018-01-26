@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import com.lomoye.common.dto.ResultData;
 import com.lomoye.common.exception.BusinessException;
 import com.lomoye.lion.core.constant.ErrorCode;
+import com.lomoye.lion.core.constant.SessionConstant;
 import com.lomoye.lion.core.domain.User;
 import com.lomoye.lion.core.manager.UserManager;
 import com.lomoye.lion.core.util.MobileCheckUtil;
@@ -97,7 +98,7 @@ public class UserController extends BaseController {
             return new ResultData<>(true);
         } catch (AuthenticationException e) {
             if (e instanceof ExcessiveAttemptsException) {
-                throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "密码错误次数超过5次,您的账户将被锁定1小时");//todo 常量
+                throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "密码错误次数超过" + SessionConstant.LIMIT_RETRY_LOGIN + "次,您的账户将被锁定"+ SessionConstant.LIMIT_RETRY_LOGIN_TIME / (1000 * 60L) + "分钟");
             }
             return new ResultData<>(false);
         }
