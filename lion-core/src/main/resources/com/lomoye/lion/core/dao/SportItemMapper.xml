@@ -1,0 +1,66 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lomoye.lion.core.dao.SportItemMapper">
+    <sql id="condition">
+        <where>
+
+        </where>
+    </sql>
+
+    <sql id="selectAllField">
+        select id,`name`,create_time,modify_time from sport_item
+    </sql>
+
+    <select id="selectWithPage" parameterType="Map" resultType="SportItem">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.paged"/>
+    </select>
+
+    <select id="selectByCondition" parameterType="Map" resultType="SportItem">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.orderby"/>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="Long" resultType="SportItem">
+        <include refid="selectAllField"/>
+        where id=#{key}
+    </select>
+
+    <select id="selectOne" parameterType="Map" resultType="SportItem">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="selectCount" parameterType="Map" resultType="long">
+        select count(*) from sport_item
+        <include refid="condition"/>
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="SportItem">
+        insert into sport_item
+        (`name`,create_time,modify_time) 
+        VALUES
+        (#{name},#{createTime},#{modifyTime})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="SportItem">
+        update sport_item set 
+        `name`=#{name},
+        modify_time=#{modifyTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+        delete from sport_item
+        where id = #{key}
+    </delete>
+
+    <delete id="deleteByCondition" parameterType="Map">
+        delete from sport_item
+        <include refid="condition"/>
+    </delete>
+</mapper>
