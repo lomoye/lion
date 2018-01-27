@@ -20,4 +20,53 @@ public class SportItemLog extends CommonDomain {
     private Date day;//哪天的
 
     private Integer isDone;//完成了么
+
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getSportItemId() {
+        return sportItemId;
+    }
+
+    public void setSportItemId(Long sportItemId) {
+        this.sportItemId = sportItemId;
+    }
+
+    public Long getWeightRecordId() {
+        return weightRecordId;
+    }
+
+    public void setWeightRecordId(Long weightRecordId) {
+        this.weightRecordId = weightRecordId;
+    }
+
+    public Long getSportPlanId() {
+        return sportPlanId;
+    }
+
+    public void setSportPlanId(Long sportPlanId) {
+        this.sportPlanId = sportPlanId;
+    }
+
+    public Date getDay() {
+        return day;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
+    }
+
+    public Integer getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone(Integer isDone) {
+        this.isDone = isDone;
+    }
 }
