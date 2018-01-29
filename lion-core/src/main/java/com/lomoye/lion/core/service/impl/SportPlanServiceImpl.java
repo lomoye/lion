@@ -37,7 +37,7 @@ public class SportPlanServiceImpl implements SportPlanService {
         String sportItemIds = addSportItems(user.getId(), sportPlan.getSportItemList());
 
         sportPlan.setSportItemIds(sportItemIds);
-
+        sportPlan.setUserId(user.getId());
         sportPlanManager.save(sportPlan);
         return sportPlan;
     }
