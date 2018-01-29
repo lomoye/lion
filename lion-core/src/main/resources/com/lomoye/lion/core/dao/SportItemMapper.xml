@@ -8,10 +8,10 @@
                 id = #{condition.id}
             </if>
             <if test="condition.userId != null">
-                user_id = #{condition.userId}
+                AND user_id = #{condition.userId}
             </if>
             <if test="condition.name != null">
-                `name` = #{condition.name}
+                AND `name` = #{condition.name}
             </if>
         </where>
     </sql>
