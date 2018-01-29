@@ -4,10 +4,20 @@ import com.lomoye.common.domain.CommonDomain;
 
 /**
  * Created by lomoye on 2018/1/26.
- * 系统内置的运动项目
+ * 用户自己建立的运动项目
  */
 public class SportItem extends CommonDomain {
+    private Long userId;
+
     private String name;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;

@@ -30,7 +30,7 @@ import java.util.UUID;
 
 /**
  * Created by lomoye on 2017/6/12.
- * 测试用
+ * 用户控制器
  */
 @RestController
 @Scope(WebApplicationContext.SCOPE_REQUEST)

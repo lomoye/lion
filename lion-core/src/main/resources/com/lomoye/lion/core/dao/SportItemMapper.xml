@@ -9,7 +9,7 @@
     </sql>
 
     <sql id="selectAllField">
-        select id,`name`,create_time,modify_time from sport_item
+        select id,user_id,`name`,create_time,modify_time from sport_item
     </sql>
 
     <select id="selectWithPage" parameterType="Map" resultType="SportItem">
@@ -42,13 +42,14 @@
 
     <insert id="insert" keyProperty="id" parameterType="SportItem">
         insert into sport_item
-        (`name`,create_time,modify_time) 
+        (user_id,`name`,create_time,modify_time) 
         VALUES
-        (#{name},#{createTime},#{modifyTime})
+        (#{userId},#{name},#{createTime},#{modifyTime})
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="SportItem">
         update sport_item set 
+        user_id=#{userId},
         `name`=#{name},
         modify_time=#{modifyTime}
         where id=#{id}

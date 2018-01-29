@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS sport_item;
 CREATE TABLE sport_item(
 id bigint(20) NOT NULL AUTO_INCREMENT,
+user_id bigint(20),
 name varchar(128),
 create_time datetime NOT NULL,
 modify_time datetime NOT NULL,

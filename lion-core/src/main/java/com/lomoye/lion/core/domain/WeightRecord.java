@@ -34,6 +34,8 @@ public class WeightRecord extends CommonDomain {
 
     private SportPlan sportPlan;//运动计划
 
+    private List<SportItemLog> sportItemLogList;//运动项目记录
+
 
     public Long getUserId() {
         return userId;
@@ -113,5 +115,13 @@ public class WeightRecord extends CommonDomain {
 
     public void setSportPlan(SportPlan sportPlan) {
         this.sportPlan = sportPlan;
+    }
+
+    public List<SportItemLog> getSportItemLogList() {
+        return sportItemLogList;
+    }
+
+    public void setSportItemLogList(List<SportItemLog> sportItemLogList) {
+        this.sportItemLogList = sportItemLogList;
     }
 }
