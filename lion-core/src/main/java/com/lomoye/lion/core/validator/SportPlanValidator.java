@@ -22,15 +22,18 @@ public class SportPlanValidator {
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "请至少选择一个运动项目");
         }
         if (sportPlan.getStartTime() == null) {
-
+            LOGGER.warn("ensureAddSportPlanParam|startTime null|userId={}", userId);
+            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "请选择开始时间");
         }
 
         if (sportPlan.getEndTime() == null) {
-
+            LOGGER.warn("ensureAddSportPlanParam|endTime null|userId={}", userId);
+            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "请选择结束时间");
         }
 
         if (sportPlan.getTargetWeight() == null) {
-
+            LOGGER.warn("ensureAddSportPlanParam|targetWeight null|userId={}", userId);
+            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "请选择目标体重");
         }
     }
 }

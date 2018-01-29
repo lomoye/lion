@@ -3,7 +3,7 @@ package com.lomoye.lion.web.controller;
 import com.lomoye.common.dto.ResultData;
 import com.lomoye.lion.core.domain.SportPlan;
 import com.lomoye.lion.core.domain.User;
-import com.lomoye.lion.core.manager.SportPlanManager;
+import com.lomoye.lion.core.service.SportPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,12 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 public class SportPlanController extends BaseController {
 
     @Autowired
-    private SportPlanManager sportPlanManager;
+    private SportPlanService sportPlanService;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     ResultData<SportPlan> addSportPlan(HttpServletRequest request, @RequestBody SportPlan sportPlan) {
         User user = getSessionUser(request);
-
+        sportPlanService.addSportPlan(user, sportPlan);
         return new ResultData<>(sportPlan);
     }
 }

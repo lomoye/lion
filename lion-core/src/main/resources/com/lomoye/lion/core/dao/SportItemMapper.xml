@@ -4,7 +4,15 @@
 <mapper namespace="com.lomoye.lion.core.dao.SportItemMapper">
     <sql id="condition">
         <where>
-
+            <if test="condition.id != null">
+                id = #{condition.id}
+            </if>
+            <if test="condition.userId != null">
+                user_id = #{condition.userId}
+            </if>
+            <if test="condition.name != null">
+                `name` = #{condition.name}
+            </if>
         </where>
     </sql>
 
@@ -64,4 +72,15 @@
         delete from sport_item
         <include refid="condition"/>
     </delete>
+
+    <select id="listByNames" parameterType="Map" resultType="SportItem">
+        <include refid="selectAllField"/>
+        WHERE user_id = #{userId}
+        AND `name` IN
+        <foreach collection="sportItemNames" open="(" separator="," close=")" item="item" >
+            #{item}
+        </foreach>
+    </select>
+
+
 </mapper>
