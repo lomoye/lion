@@ -19,8 +19,6 @@ public class SportItemLog extends CommonDomain {
 
     private Date day;//哪天的
 
-    private Integer isDone;//完成了么
-
 
     public Long getUserId() {
         return userId;
@@ -62,11 +60,4 @@ public class SportItemLog extends CommonDomain {
         this.day = day;
     }
 
-    public Integer getIsDone() {
-        return isDone;
-    }
-
-    public void setIsDone(Integer isDone) {
-        this.isDone = isDone;
-    }
 }

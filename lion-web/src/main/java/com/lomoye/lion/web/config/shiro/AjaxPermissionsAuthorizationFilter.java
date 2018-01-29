@@ -3,6 +3,7 @@ package com.lomoye.lion.web.config.shiro;
 
 import com.lomoye.common.dto.ResultData;
 import com.lomoye.common.util.SerializationUtil;
+import com.lomoye.lion.core.constant.ErrorCode;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,7 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
         HttpServletResponse res = (HttpServletResponse) response;
         try {
             ResultData<Boolean> resultData = new ResultData<>();
-            resultData.setResultCode("10000");
+            resultData.setResultCode(ErrorCode.LOGIN_EXPIRED);
             resultData.setResultMessage("登陆已过期,请重新登陆");
             resultData.setData(false);
 

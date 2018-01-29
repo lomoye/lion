@@ -9,7 +9,7 @@
     </sql>
 
     <sql id="selectAllField">
-        select id,user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,is_done,create_time,modify_time
+        select id,user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,create_time,modify_time
          from sport_item_log
     </sql>
 
@@ -43,9 +43,9 @@
 
     <insert id="insert" keyProperty="id" parameterType="SportItemLog">
         insert into sport_item_log
-        (user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,is_done,create_time,modify_time) 
+        (user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,create_time,modify_time) 
         VALUES
-        (#{userId},#{sportItemId},#{weightRecordId},#{sportPlanId},#{day},#{isDone},#{createTime},#{modifyTime}
+        (#{userId},#{sportItemId},#{weightRecordId},#{sportPlanId},#{day},#{createTime},#{modifyTime}
         )
     </insert>
 
@@ -56,7 +56,6 @@
         weight_record_id=#{weightRecordId},
         sport_plan_id=#{sportPlanId},
         `day`=#{day},
-        is_done=#{isDone},
         modify_time=#{modifyTime}
         where id=#{id}
     </update>

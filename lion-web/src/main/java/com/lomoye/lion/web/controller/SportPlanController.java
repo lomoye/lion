@@ -29,7 +29,7 @@ public class SportPlanController extends BaseController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     ResultData<SportPlan> addSportPlan(HttpServletRequest request, @RequestBody SportPlan sportPlan) {
         User user = getSessionUser(request);
-        sportPlanManager.save(sportPlan);
+
         return new ResultData<>(sportPlan);
     }
 }

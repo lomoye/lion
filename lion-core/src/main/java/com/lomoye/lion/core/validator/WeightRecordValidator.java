@@ -54,10 +54,6 @@ public class WeightRecordValidator {
             return;
         }
         for (SportItemLog sportItemLog : sportItemLogList) {
-            if (sportItemLog.getIsDone() == null) {
-                LOGGER.warn("checkSportItemLog|isDone null|userId={}", userId);
-                throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "请输入是否完成运动项目");
-            }
             if (sportItemLog.getSportItemId() == null) {
                 LOGGER.warn("checkSportItemLog|sportItemId null|userId={}", userId);
                 throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "运动项目id不能为空");

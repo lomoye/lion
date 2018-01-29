@@ -12,6 +12,8 @@ import java.util.List;
 public class SportPlan extends CommonDomain {
     private Long userId;
 
+    private Long targetWeight;//目标体重*100 公斤
+
     private Date startTime;
 
     private Date endTime;
@@ -30,6 +32,14 @@ public class SportPlan extends CommonDomain {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getTargetWeight() {
+        return targetWeight;
+    }
+
+    public void setTargetWeight(Long targetWeight) {
+        this.targetWeight = targetWeight;
     }
 
     public Date getStartTime() {

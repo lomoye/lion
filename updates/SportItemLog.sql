@@ -6,7 +6,6 @@ sport_item_id bigint(20),
 weight_record_id bigint(20),
 sport_plan_id bigint(20),
 day datetime,
-is_done int(20),
 create_time datetime NOT NULL,
 modify_time datetime NOT NULL,
 PRIMARY KEY (id) 
