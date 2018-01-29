@@ -1,0 +1,73 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lomoye.lion.core.dao.SportItemLogMapper">
+    <sql id="condition">
+        <where>
+
+        </where>
+    </sql>
+
+    <sql id="selectAllField">
+        select id,user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,is_done,create_time,modify_time
+         from sport_item_log
+    </sql>
+
+    <select id="selectWithPage" parameterType="Map" resultType="SportItemLog">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.paged"/>
+    </select>
+
+    <select id="selectByCondition" parameterType="Map" resultType="SportItemLog">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.orderby"/>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="Long" resultType="SportItemLog">
+        <include refid="selectAllField"/>
+        where id=#{key}
+    </select>
+
+    <select id="selectOne" parameterType="Map" resultType="SportItemLog">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="selectCount" parameterType="Map" resultType="long">
+        select count(*) from sport_item_log
+        <include refid="condition"/>
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="SportItemLog">
+        insert into sport_item_log
+        (user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,is_done,create_time,modify_time) 
+        VALUES
+        (#{userId},#{sportItemId},#{weightRecordId},#{sportPlanId},#{day},#{isDone},#{createTime},#{modifyTime}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="SportItemLog">
+        update sport_item_log set 
+        user_id=#{userId},
+        sport_item_id=#{sportItemId},
+        weight_record_id=#{weightRecordId},
+        sport_plan_id=#{sportPlanId},
+        `day`=#{day},
+        is_done=#{isDone},
+        modify_time=#{modifyTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+        delete from sport_item_log
+        where id = #{key}
+    </delete>
+
+    <delete id="deleteByCondition" parameterType="Map">
+        delete from sport_item_log
+        <include refid="condition"/>
+    </delete>
+</mapper>

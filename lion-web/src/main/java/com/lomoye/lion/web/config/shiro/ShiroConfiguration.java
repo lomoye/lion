@@ -26,7 +26,6 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfiguration {
-    private static final Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
 
     /**
      * Shiro的Web过滤器Factory 命名:shiroFilter

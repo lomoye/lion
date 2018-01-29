@@ -11,12 +11,18 @@
  <typeAliases> 
   <typeAlias alias="User" type="com.lomoye.lion.core.domain.User" /> 
   <typeAlias alias="SportPlan" type="com.lomoye.lion.core.domain.SportPlan" /> 
-  <typeAlias alias="SportItem" type="com.lomoye.lion.core.domain.SportItem" />
+  <typeAlias alias="SportItem" type="com.lomoye.lion.core.domain.SportItem" /> 
+  <typeAlias alias="SportItemLog" type="com.lomoye.lion.core.domain.SportItemLog" /> 
+  <typeAlias alias="WeightRecord" type="com.lomoye.lion.core.domain.WeightRecord" /> 
+  <typeAlias alias="WeightRecordImage" type="com.lomoye.lion.core.domain.WeightRecordImage" />
  </typeAliases> 
  <mappers> 
   <mapper resource="com/lomoye/common/dao/Common.xml" /> 
   <mapper resource="com/lomoye/lion/core/dao/UserMapper.xml" /> 
   <mapper resource="com/lomoye/lion/core/dao/SportPlanMapper.xml" /> 
-  <mapper resource="com/lomoye/lion/core/dao/SportItemMapper.xml" />
+  <mapper resource="com/lomoye/lion/core/dao/SportItemMapper.xml" /> 
+  <mapper resource="com/lomoye/lion/core/dao/SportItemLogMapper.xml" /> 
+  <mapper resource="com/lomoye/lion/core/dao/WeightRecordMapper.xml" /> 
+  <mapper resource="com/lomoye/lion/core/dao/WeightRecordImageMapper.xml" />
  </mappers>
 </configuration>

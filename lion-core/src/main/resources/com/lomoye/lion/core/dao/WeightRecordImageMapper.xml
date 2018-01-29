@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lomoye.lion.core.dao.WeightRecordImageMapper">
+    <sql id="condition">
+        <where>
+
+        </where>
+    </sql>
+
+    <sql id="selectAllField">
+        select id,user_id,weight_record_id,image_url,create_time,modify_time from weight_record_image
+    </sql>
+
+    <select id="selectWithPage" parameterType="Map" resultType="WeightRecordImage">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.paged"/>
+    </select>
+
+    <select id="selectByCondition" parameterType="Map" resultType="WeightRecordImage">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        <include refid="com.lomoye.common.dao.orderby"/>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="Long" resultType="WeightRecordImage">
+        <include refid="selectAllField"/>
+        where id=#{key}
+    </select>
+
+    <select id="selectOne" parameterType="Map" resultType="WeightRecordImage">
+        <include refid="selectAllField"/>
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="selectCount" parameterType="Map" resultType="long">
+        select count(*) from weight_record_image
+        <include refid="condition"/>
+    </select>
+
+    <insert id="insert" keyProperty="id" parameterType="WeightRecordImage">
+        insert into weight_record_image
+        (user_id,weight_record_id,image_url,create_time,modify_time) 
+        VALUES
+        (#{userId},#{weightRecordId},#{imageUrl},#{createTime},#{modifyTime})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="WeightRecordImage">
+        update weight_record_image set 
+        user_id=#{userId},
+        weight_record_id=#{weightRecordId},
+        image_url=#{imageUrl},
+        modify_time=#{modifyTime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+        delete from weight_record_image
+        where id = #{key}
+    </delete>
+
+    <delete id="deleteByCondition" parameterType="Map">
+        delete from weight_record_image
+        <include refid="condition"/>
+    </delete>
+</mapper>
