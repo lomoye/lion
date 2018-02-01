@@ -2,8 +2,12 @@ package com.lomoye.lion.web.controller;
 
 import com.lomoye.common.dto.ResultData;
 import com.lomoye.common.dto.ResultList;
+import com.lomoye.common.util.SplitterUtil;
+import com.lomoye.lion.core.domain.SportItem;
 import com.lomoye.lion.core.domain.SportPlan;
 import com.lomoye.lion.core.domain.User;
+import com.lomoye.lion.core.manager.SportItemManager;
+import com.lomoye.lion.core.manager.SportPlanManager;
 import com.lomoye.lion.core.service.SportPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,11 +31,27 @@ public class SportPlanController extends BaseController {
 
     @Autowired
     private SportPlanService sportPlanService;
+    @Autowired
+    private SportPlanManager sportPlanManager;
+    @Autowired
+    private SportItemManager sportItemManager;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     ResultData<SportPlan> addSportPlan(HttpServletRequest request, @RequestBody SportPlan sportPlan) {
         User user = getSessionUser(request);
         sportPlanService.addSportPlan(user, sportPlan);
+        return new ResultData<>(sportPlan);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    ResultData<SportPlan> getSportPlan(HttpServletRequest request) {
+        User user = getSessionUser(request);
+        SportPlan sportPlan = sportPlanManager.findNoExpiredSportPlan(user.getId());
+        if (sportPlan != null) {
+            List<Long> itemIdList = SplitterUtil.splitToLongList(sportPlan.getSportItemIds(), ",", null);
+            List<SportItem> sportItems = sportItemManager.listByItemIds(user.getId(), itemIdList);
+            sportPlan.setSportItemList(sportItems);
+        }
         return new ResultData<>(sportPlan);
     }
 

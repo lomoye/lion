@@ -4,12 +4,20 @@
 <mapper namespace="com.lomoye.lion.core.dao.WeightRecordMapper">
     <sql id="condition">
         <where>
-
+            <if test="condition.id != null">
+                id = #{condition.id}
+            </if>
+            <if test="condition.userId != null">
+                AND user_id = #{condition.userId}
+            </if>
+            <if test="condition.day != null">
+                AND `day` = #{condition.day}
+            </if>
         </where>
     </sql>
 
     <sql id="selectAllField">
-        select id,user_id,`day`,weight,is_sport,is_breakfast,is_lunch,is_dinner,desc,create_time,modify_time
+        select id,user_id,`day`,weight,is_sport,is_breakfast,is_lunch,is_dinner,`desc`,create_time,modify_time
          from weight_record
     </sql>
 
@@ -43,7 +51,7 @@
 
     <insert id="insert" keyProperty="id" parameterType="WeightRecord">
         insert into weight_record
-        (user_id,`day`,weight,is_sport,is_breakfast,is_lunch,is_dinner,desc,create_time,modify_time) 
+        (user_id,`day`,weight,is_sport,is_breakfast,is_lunch,is_dinner,`desc`,create_time,modify_time)
         VALUES
         (#{userId},#{day},#{weight},#{isSport},#{isBreakfast},#{isLunch},#{isDinner},#{desc},#{createTime},
         #{modifyTime})
@@ -58,7 +66,7 @@
         is_breakfast=#{isBreakfast},
         is_lunch=#{isLunch},
         is_dinner=#{isDinner},
-        desc=#{desc},
+        `desc`=#{desc},
         modify_time=#{modifyTime}
         where id=#{id}
     </update>

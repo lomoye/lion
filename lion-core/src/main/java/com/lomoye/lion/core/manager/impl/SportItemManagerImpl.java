@@ -9,6 +9,7 @@ import com.lomoye.common.manager.AbstractManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,5 +37,13 @@ public class SportItemManagerImpl extends AbstractManager<SportItem> implements 
         Preconditions.checkArgument(userId != null && !itemIdList.isEmpty());
 
         return mapper.listByItemIds(userId, itemIdList);
+    }
+
+    @Override
+    public List<SportItem> listByUserId(Long userId) {
+        Preconditions.checkArgument(userId != null);
+        SportItem condition = new SportItem();
+        condition.setUserId(userId);
+        return listByCondition(condition, new ArrayList<>());
     }
 }

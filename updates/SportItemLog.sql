@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS sport_item_log;
 CREATE TABLE sport_item_log(
 id bigint(20) NOT NULL AUTO_INCREMENT,
-user_id bigint(20),
-sport_item_id bigint(20),
-weight_record_id bigint(20),
-sport_plan_id bigint(20),
-day datetime,
+user_id bigint(20) NOT NULL,
+sport_item_id bigint(20) NOT NULL,
+weight_record_id bigint(20) NOT NULL,
+sport_plan_id bigint(20) NOT NULL,
+day datetime NOT NULL,
 create_time datetime NOT NULL,
 modify_time datetime NOT NULL,
 PRIMARY KEY (id) 

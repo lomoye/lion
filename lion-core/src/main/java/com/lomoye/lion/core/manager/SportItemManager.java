@@ -11,4 +11,6 @@ public interface SportItemManager extends DomainManager<Long,SportItem> {
     List<SportItem> listByNames(Long userId, Set<String> sportItemNames);
 
     List<SportItem> listByItemIds(Long userId, List<Long> itemIdList);
+
+    List<SportItem> listByUserId(Long userId);
 }
