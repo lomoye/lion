@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface SportItemMapper extends PagedMapper<Long,SportItem> {
+public interface SportItemMapper extends PagedMapper<Long, SportItem> {
     List<SportItem> listByNames(@Param("userId") Long userId, @Param("sportItemNames") Set<String> sportItemNames);
 
+    List<SportItem> listByItemIds(@Param("userId") Long userId, @Param("itemIdList") List<Long> itemIdList);
 }

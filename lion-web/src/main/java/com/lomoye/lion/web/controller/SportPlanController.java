@@ -1,6 +1,7 @@
 package com.lomoye.lion.web.controller;
 
 import com.lomoye.common.dto.ResultData;
+import com.lomoye.common.dto.ResultList;
 import com.lomoye.lion.core.domain.SportPlan;
 import com.lomoye.lion.core.domain.User;
 import com.lomoye.lion.core.service.SportPlanService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by lomoye on 2018/1/29.
@@ -31,5 +33,12 @@ public class SportPlanController extends BaseController {
         User user = getSessionUser(request);
         sportPlanService.addSportPlan(user, sportPlan);
         return new ResultData<>(sportPlan);
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    ResultList<SportPlan> listSportPlan(HttpServletRequest request, Boolean isExpired) {
+        User user = getSessionUser(request);
+        List<SportPlan> sportPlanList = sportPlanService.listSportPlan(user, isExpired);
+        return new ResultList<>(sportPlanList);
     }
 }

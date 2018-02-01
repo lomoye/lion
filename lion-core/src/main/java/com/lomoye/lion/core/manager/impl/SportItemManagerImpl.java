@@ -30,4 +30,11 @@ public class SportItemManagerImpl extends AbstractManager<SportItem> implements 
         Preconditions.checkArgument(userId != null && !sportItemNames.isEmpty());
         return mapper.listByNames(userId, sportItemNames);
     }
+
+    @Override
+    public List<SportItem> listByItemIds(Long userId, List<Long> itemIdList) {
+        Preconditions.checkArgument(userId != null && !itemIdList.isEmpty());
+
+        return mapper.listByItemIds(userId, itemIdList);
+    }
 }

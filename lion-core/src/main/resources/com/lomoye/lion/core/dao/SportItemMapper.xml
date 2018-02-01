@@ -82,5 +82,13 @@
         </foreach>
     </select>
 
+    <select id="listByItemIds" parameterType="Map" resultType="SportItem">
+        <include refid="selectAllField"/>
+        WHERE user_id = #{userId}
+        AND id IN
+        <foreach collection="itemIdList" open="(" separator="," close=")" item="item" >
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

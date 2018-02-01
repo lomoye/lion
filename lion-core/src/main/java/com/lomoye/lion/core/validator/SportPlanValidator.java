@@ -8,6 +8,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 /**
  * Created by lomoye on 2018/1/29.
  * 运动计划验证器
@@ -29,6 +31,16 @@ public class SportPlanValidator {
         if (sportPlan.getEndTime() == null) {
             LOGGER.warn("ensureAddSportPlanParam|endTime null|userId={}", userId);
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "请选择结束时间");
+        }
+
+        if (sportPlan.getStartTime().after(sportPlan.getEndTime())) {
+            LOGGER.warn("ensureAddSportPlanParam|startTime > endTime|userId={}", userId);
+            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "开始时间不能大于结束时间");
+        }
+
+        if (sportPlan.getEndTime().before(new Date())) {
+            LOGGER.warn("ensureAddSportPlanParam|endTime < now|userId={}", userId);
+            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "结束时间不能小于当前时间");
         }
 
         if (sportPlan.getTargetWeight() == null) {
