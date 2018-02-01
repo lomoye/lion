@@ -1,7 +1,6 @@
 package com.lomoye.lion.web.filter;
 
 
-import com.google.common.base.Strings;
 import com.lomoye.lion.core.util.HttpCacheUtil;
 
 import javax.servlet.*;
@@ -22,11 +21,7 @@ public class StaticCacheFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if (Strings.isNullOrEmpty(request.getParameter("v"))) {
-            HttpCacheUtil.disableResponseCache(response);
-        } else {
-            HttpCacheUtil.enableResponseCache(response);
-        }
+        HttpCacheUtil.enableResponseCache(response);
         chain.doFilter(request, response);
     }
 
