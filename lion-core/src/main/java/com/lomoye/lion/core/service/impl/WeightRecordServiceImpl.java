@@ -37,6 +37,8 @@ public class WeightRecordServiceImpl implements WeightRecordService {
         WeightRecordValidator.ensureAddWeightRecordParam(user.getId(), weightRecord);
         checkHasTodayRecord(user.getId());
 
+        checkAndSetIsSport(weightRecord);
+
         weightRecord.setUserId(user.getId());
         weightRecord.setDay(DateUtil.getDailyStartTime(weightRecord.getDay()));
         weightRecordManager.save(weightRecord);
@@ -52,6 +54,12 @@ public class WeightRecordServiceImpl implements WeightRecordService {
         }
 
         return weightRecord;
+    }
+
+    private void checkAndSetIsSport(WeightRecord weightRecord) {
+        if (CollectionUtils.isNotEmpty(weightRecord.getSportItemLogList())) {
+            weightRecord.setIsSport(1);
+        }
     }
 
     private void checkHasTodayRecord(Long userId) {
