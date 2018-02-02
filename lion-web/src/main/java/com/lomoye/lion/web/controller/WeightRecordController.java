@@ -2,6 +2,7 @@ package com.lomoye.lion.web.controller;
 
 import com.lomoye.common.dto.ResultData;
 import com.lomoye.common.dto.ResultPagedList;
+import com.lomoye.common.util.DateUtil;
 import com.lomoye.lion.core.domain.SportItemLog;
 import com.lomoye.lion.core.domain.User;
 import com.lomoye.lion.core.domain.WeightRecord;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,6 +51,13 @@ public class WeightRecordController extends BaseController {
     ResultData<WeightRecord> addWeightRecord(HttpServletRequest request, @RequestBody WeightRecord weightRecord) {
         User user = getSessionUser(request);
         weightRecordService.addWeightRecord(user, weightRecord);
+        return new ResultData<>(weightRecord);
+    }
+
+    @RequestMapping(value = "/today", method = RequestMethod.GET)
+    ResultData<WeightRecord> findTodayWeightRecord(HttpServletRequest request) {
+        User user = getSessionUser(request);
+        WeightRecord weightRecord = weightRecordManager.findByDay(user.getId(), DateUtil.getDailyStartTime(new Date()));
         return new ResultData<>(weightRecord);
     }
 

@@ -13,14 +13,13 @@ public class SportItemLog extends CommonDomain {
 
     private Long sportItemId;//属于哪个运动项目的
 
-    private Long sportItemName;//运动名称
+    private String sportItemName;//运动名称
 
     private Long weightRecordId;//基于哪条记录的
 
     private Long sportPlanId;//属于哪个计划的
 
     private Date day;//哪天的
-
 
     public Long getUserId() {
         return userId;
@@ -38,11 +37,11 @@ public class SportItemLog extends CommonDomain {
         this.sportItemId = sportItemId;
     }
 
-    public Long getSportItemName() {
+    public String getSportItemName() {
         return sportItemName;
     }
 
-    public void setSportItemName(Long sportItemName) {
+    public void setSportItemName(String sportItemName) {
         this.sportItemName = sportItemName;
     }
 
@@ -69,5 +68,4 @@ public class SportItemLog extends CommonDomain {
     public void setDay(Date day) {
         this.day = day;
     }
-
 }
