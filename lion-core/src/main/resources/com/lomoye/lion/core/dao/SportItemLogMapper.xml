@@ -4,12 +4,29 @@
 <mapper namespace="com.lomoye.lion.core.dao.SportItemLogMapper">
     <sql id="condition">
         <where>
-
+            <if test="condition.id != null">
+                id = #{condition.id}
+            </if>
+            <if test="condition.userId != null">
+                AND user_id = #{condition.userId}
+            </if>
+            <if test="condition.sportItemId != null">
+                AND sport_item_id = #{condition.sportItemId}
+            </if>
+            <if test="condition.weightRecordId != null">
+                AND weight_record_id = #{condition.weightRecordId}
+            </if>
+            <if test="condition.sportPlanId != null">
+                AND sport_plan_id = #{condition.sportPlanId}
+            </if>
+            <if test="condition.day != null">
+                AND `day` = #{condition.day}
+            </if>
         </where>
     </sql>
 
     <sql id="selectAllField">
-        select id,user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,create_time,modify_time
+        select id,user_id,sport_item_id,sport_item_name,weight_record_id,sport_plan_id,`day`,create_time,modify_time
          from sport_item_log
     </sql>
 
@@ -43,9 +60,9 @@
 
     <insert id="insert" keyProperty="id" parameterType="SportItemLog">
         insert into sport_item_log
-        (user_id,sport_item_id,weight_record_id,sport_plan_id,`day`,create_time,modify_time) 
+        (user_id,sport_item_id,sport_item_name,weight_record_id,sport_plan_id,`day`,create_time,modify_time)
         VALUES
-        (#{userId},#{sportItemId},#{weightRecordId},#{sportPlanId},#{day},#{createTime},#{modifyTime}
+        (#{userId},#{sportItemId},#{sportItemName},#{weightRecordId},#{sportPlanId},#{day},#{createTime},#{modifyTime}
         )
     </insert>
 
@@ -53,6 +70,7 @@
         update sport_item_log set 
         user_id=#{userId},
         sport_item_id=#{sportItemId},
+        sport_item_name=#{sportItemName},
         weight_record_id=#{weightRecordId},
         sport_plan_id=#{sportPlanId},
         `day`=#{day},
@@ -69,4 +87,13 @@
         delete from sport_item_log
         <include refid="condition"/>
     </delete>
+
+    <select id="listByRecordIds" parameterType="Map" resultType="SportItemLog">
+        <include refid="selectAllField"/>
+        WHERE user_id = #{userId}
+        AND weight_record_id IN
+        <foreach collection="recordIds" open="(" separator="," close=")" item="recordId">
+            #{recordId}
+        </foreach>
+    </select>
 </mapper>

@@ -44,7 +44,7 @@ public class WeightRecordManagerImpl extends AbstractManager<WeightRecord> imple
 
         WeightRecord condition = new WeightRecord();
         condition.setUserId(userId);
-        return listWithPage(condition, page);
+        return nonEmptyList(listWithPage(condition, page));
     }
 
     @Override
