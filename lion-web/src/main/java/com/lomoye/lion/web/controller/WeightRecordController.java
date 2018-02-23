@@ -6,7 +6,9 @@ import com.lomoye.common.util.DateUtil;
 import com.lomoye.lion.core.domain.SportItemLog;
 import com.lomoye.lion.core.domain.User;
 import com.lomoye.lion.core.domain.WeightRecord;
+import com.lomoye.lion.core.domain.WeightRecordImage;
 import com.lomoye.lion.core.manager.SportItemLogManager;
+import com.lomoye.lion.core.manager.WeightRecordImageManager;
 import com.lomoye.lion.core.manager.WeightRecordManager;
 import com.lomoye.lion.core.model.WeightRecordSearchModel;
 import com.lomoye.lion.core.service.WeightRecordService;
@@ -44,6 +46,9 @@ public class WeightRecordController extends BaseController {
     @Autowired
     private SportItemLogManager sportItemLogManager;
 
+    @Autowired
+    private WeightRecordImageManager weightRecordImageManager;
+
     /**
      * 添加体重记录
      */
@@ -72,8 +77,13 @@ public class WeightRecordController extends BaseController {
         Set<Long> recordIds = weightRecordList.stream().map(WeightRecord::getId).collect(Collectors.toSet());
         List<SportItemLog> sportItemLogList = sportItemLogManager.listByRecordIds(user.getId(), recordIds);
         Map<Long, List<SportItemLog>> sportItemLogMap = sportItemLogList.stream().collect(Collectors.groupingBy(SportItemLog::getWeightRecordId));
+
+        List<WeightRecordImage> imageList = weightRecordImageManager.listByRecordIds(user.getId(), recordIds);
+        Map<Long, List<WeightRecordImage>> imageMap = imageList.stream().collect(Collectors.groupingBy(WeightRecordImage::getWeightRecordId));
+
         for (WeightRecord weightRecord : weightRecordList) {
             weightRecord.setSportItemLogList(sportItemLogMap.get(weightRecord.getId()));
+            weightRecord.setWeightRecordImageList(imageMap.get(weightRecord.getId()));
         }
 
         long count = weightRecordManager.searchCount(user.getId(), searchModel);

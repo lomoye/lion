@@ -6,7 +6,9 @@ import com.lomoye.lion.core.constant.ErrorCode;
 import com.lomoye.lion.core.domain.SportItemLog;
 import com.lomoye.lion.core.domain.User;
 import com.lomoye.lion.core.domain.WeightRecord;
+import com.lomoye.lion.core.domain.WeightRecordImage;
 import com.lomoye.lion.core.manager.SportItemLogManager;
+import com.lomoye.lion.core.manager.WeightRecordImageManager;
 import com.lomoye.lion.core.manager.WeightRecordManager;
 import com.lomoye.lion.core.service.WeightRecordService;
 import com.lomoye.lion.core.validator.WeightRecordValidator;
@@ -32,6 +34,9 @@ public class WeightRecordServiceImpl implements WeightRecordService {
     @Autowired
     private SportItemLogManager sportItemLogManager;
 
+    @Autowired
+    private WeightRecordImageManager weightRecordImageManager;
+
     @Override
     public WeightRecord addWeightRecord(User user, WeightRecord weightRecord) {
         WeightRecordValidator.ensureAddWeightRecordParam(user.getId(), weightRecord);
@@ -42,6 +47,8 @@ public class WeightRecordServiceImpl implements WeightRecordService {
         weightRecord.setUserId(user.getId());
         weightRecord.setDay(DateUtil.getDailyStartTime(weightRecord.getDay()));
         weightRecordManager.save(weightRecord);
+
+        saveRecordImages(user, weightRecord);
 
         if (CollectionUtils.isEmpty(weightRecord.getSportItemLogList())) {
             return weightRecord;
@@ -54,6 +61,18 @@ public class WeightRecordServiceImpl implements WeightRecordService {
         }
 
         return weightRecord;
+    }
+
+    private void saveRecordImages(User user, WeightRecord weightRecord) {
+        if (CollectionUtils.isEmpty(weightRecord.getWeightRecordImageList())) {
+            return;
+        }
+
+        for (WeightRecordImage image : weightRecord.getWeightRecordImageList()) {
+            image.setUserId(user.getId());
+            image.setWeightRecordId(weightRecord.getId());
+            weightRecordImageManager.save(image);
+        }
     }
 
     private void checkAndSetIsSport(WeightRecord weightRecord) {

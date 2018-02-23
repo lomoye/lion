@@ -65,4 +65,14 @@
         delete from weight_record_image
         <include refid="condition"/>
     </delete>
+
+
+    <select id="listByRecordIds" parameterType="Map" resultType="WeightRecordImage">
+        <include refid="selectAllField"/>
+        WHERE user_id = #{userId}
+        AND weight_record_id IN
+        <foreach collection="recordIds" open="(" separator="," close=")" item="recordId">
+            #{recordId}
+        </foreach>
+    </select>
 </mapper>

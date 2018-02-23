@@ -1,10 +1,12 @@
 package com.lomoye.lion.core.validator;
 
+import com.google.common.base.Strings;
 import com.lomoye.common.exception.BusinessException;
 import com.lomoye.common.util.SerializationUtil;
 import com.lomoye.lion.core.constant.ErrorCode;
 import com.lomoye.lion.core.domain.SportItemLog;
 import com.lomoye.lion.core.domain.WeightRecord;
+import com.lomoye.lion.core.domain.WeightRecordImage;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +49,20 @@ public class WeightRecordValidator {
         }
 
         checkSportItemLog(userId, weightRecord.getSportItemLogList());
+
+        checkRecordImage(userId, weightRecord.getWeightRecordImageList());
+    }
+
+    private static void checkRecordImage(Long userId, List<WeightRecordImage> weightRecordImageList) {
+        if (CollectionUtils.isEmpty(weightRecordImageList)) {
+            return;
+        }
+        for (WeightRecordImage image : weightRecordImageList) {
+            if (Strings.isNullOrEmpty(image.getImageUrl())) {
+                LOGGER.info("checkRecordImage imageUrl null|userId={}", userId);
+                throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "记录图片链接不能为空");
+            }
+        }
     }
 
     private static void checkSportItemLog(Long userId, List<SportItemLog> sportItemLogList) {
