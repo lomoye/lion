@@ -40,13 +40,14 @@ public class CommonController extends BaseController {
             LOGGER.warn("upload user icon is null|userId={}", user.getId());
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "图片不能为空");
         }
-        if (file.getSize() >= 1024 * 1014 * 10) {
+        if (file.getSize() >= 1024 * 1014 * 2) {
             LOGGER.warn("icon size >= 2M|userId={}", user.getId());
-            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "图片大小最大10M");
+            throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "图片大小最大2M");
         }
 
         String fileName = file.getOriginalFilename();
-        if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg")) {
+        if (!fileName.endsWith(".png") && !fileName.endsWith(".PNG") && !fileName.endsWith(".jpg") && !fileName.endsWith(".JPG")
+                && !fileName.endsWith(".jpeg") && !fileName.endsWith(".JPEG")) {
             LOGGER.warn("icon name invalid|{}", file.getOriginalFilename());
             throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "图片格式只能是jpg或者png");
         }
@@ -56,6 +57,7 @@ public class CommonController extends BaseController {
                 LOGGER.warn("iconImg is null|userId={}", user.getId());
                 throw new BusinessException(ErrorCode.PARAMETER_IS_ILLEGAL, "WARNING:请确定你传入的是否是图片格式！");
             }
+
             String name = UUID.randomUUID().toString().replace("-", "");
             String picUrl = UploadUtil.upload(UploadDir.lion, name, file.getInputStream());
             return new ResultData<>(picUrl);
