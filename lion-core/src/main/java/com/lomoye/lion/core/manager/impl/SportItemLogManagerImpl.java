@@ -1,7 +1,9 @@
 package com.lomoye.lion.core.manager.impl;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.lomoye.common.dao.BasicMapper;
+import com.lomoye.common.dao.OrderCondition;
 import com.lomoye.lion.core.dao.SportItemLogMapper;
 import com.lomoye.lion.core.domain.SportItemLog;
 import com.lomoye.lion.core.manager.SportItemLogManager;
@@ -31,5 +33,14 @@ public class SportItemLogManagerImpl extends AbstractManager<SportItemLog> imple
         Preconditions.checkArgument(userId != null && CollectionUtils.isNotEmpty(recordIds));
 
         return nonEmptyList(mapper.listByRecordIds(userId, recordIds));
+    }
+
+    @Override
+    public List<SportItemLog> listBySportPlanId(Long userId, Long sportPlanId) {
+        Preconditions.checkArgument(userId != null && sportPlanId != null);
+        SportItemLog condition = new SportItemLog();
+        condition.setUserId(userId);
+        condition.setSportPlanId(sportPlanId);
+        return nonEmptyList(listByCondition(condition, Lists.newArrayList(new OrderCondition("`day`", "desc"))));
     }
 }

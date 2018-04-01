@@ -9,4 +9,6 @@ import java.util.Set;
 
 public interface SportItemLogManager extends DomainManager<Long,SportItemLog> {
     List<SportItemLog> listByRecordIds(Long userId, Set<Long> recordIds);
+
+    List<SportItemLog> listBySportPlanId(Long userId, Long sportPlanId);
 }

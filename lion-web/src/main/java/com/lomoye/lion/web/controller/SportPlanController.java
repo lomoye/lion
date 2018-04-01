@@ -8,6 +8,7 @@ import com.lomoye.lion.core.domain.SportPlan;
 import com.lomoye.lion.core.domain.User;
 import com.lomoye.lion.core.manager.SportItemManager;
 import com.lomoye.lion.core.manager.SportPlanManager;
+import com.lomoye.lion.core.model.SportPlanReportModel;
 import com.lomoye.lion.core.service.SportPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -60,5 +61,12 @@ public class SportPlanController extends BaseController {
         User user = getSessionUser(request);
         List<SportPlan> sportPlanList = sportPlanService.listSportPlan(user, isExpired);
         return new ResultList<>(sportPlanList);
+    }
+
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    ResultData<SportPlanReportModel> getSportPlanReport(HttpServletRequest request, Long id) {
+        User user = getSessionUser(request);
+
+        return new ResultData<>(sportPlanService.getSportPlanReport(user, id));
     }
 }

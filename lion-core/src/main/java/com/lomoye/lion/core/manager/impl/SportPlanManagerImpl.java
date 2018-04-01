@@ -1,5 +1,6 @@
 package com.lomoye.lion.core.manager.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.lomoye.common.dao.BasicMapper;
 import com.lomoye.lion.core.dao.SportPlanMapper;
@@ -27,11 +28,13 @@ public class SportPlanManagerImpl extends AbstractManager<SportPlan> implements 
 
     @Override
     public SportPlan findNoExpiredSportPlan(Long userId) {
+        Preconditions.checkArgument(userId != null);
         return mapper.findNoExpiredSportPlan(userId);
     }
 
     @Override
     public List<SportPlan> listSportPlan(Long userId, Boolean isExpired) {
+        Preconditions.checkArgument(userId != null && isExpired != null);
         if (isExpired) {
             return nonEmptyList(mapper.findExpiredSportPLan(userId));
         } else {
@@ -42,5 +45,14 @@ public class SportPlanManagerImpl extends AbstractManager<SportPlan> implements 
             return Lists.newArrayList(sportPlan);
         }
 
+    }
+
+    @Override
+    public SportPlan findById(Long userId, Long id) {
+        Preconditions.checkArgument(userId != null && id != null);
+        SportPlan condition = new SportPlan();
+        condition.setUserId(userId);
+        condition.setId(id);
+        return getByCondition(condition);
     }
 }

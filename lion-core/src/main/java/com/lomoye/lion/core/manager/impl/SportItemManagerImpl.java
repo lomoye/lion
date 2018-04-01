@@ -29,14 +29,14 @@ public class SportItemManagerImpl extends AbstractManager<SportItem> implements 
     @Override
     public List<SportItem> listByNames(Long userId, Set<String> sportItemNames) {
         Preconditions.checkArgument(userId != null && !sportItemNames.isEmpty());
-        return mapper.listByNames(userId, sportItemNames);
+        return nonEmptyList(mapper.listByNames(userId, sportItemNames));
     }
 
     @Override
     public List<SportItem> listByItemIds(Long userId, List<Long> itemIdList) {
         Preconditions.checkArgument(userId != null && !itemIdList.isEmpty());
 
-        return mapper.listByItemIds(userId, itemIdList);
+        return nonEmptyList(mapper.listByItemIds(userId, itemIdList));
     }
 
     @Override
@@ -44,6 +44,6 @@ public class SportItemManagerImpl extends AbstractManager<SportItem> implements 
         Preconditions.checkArgument(userId != null);
         SportItem condition = new SportItem();
         condition.setUserId(userId);
-        return listByCondition(condition, new ArrayList<>());
+        return nonEmptyList(listByCondition(condition, new ArrayList<>()));
     }
 }
