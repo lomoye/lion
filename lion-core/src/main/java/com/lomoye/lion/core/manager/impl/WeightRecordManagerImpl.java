@@ -1,7 +1,9 @@
 package com.lomoye.lion.core.manager.impl;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.lomoye.common.dao.BasicMapper;
+import com.lomoye.common.dao.OrderCondition;
 import com.lomoye.common.dao.Page;
 import com.lomoye.common.manager.AbstractManager;
 import com.lomoye.lion.core.dao.WeightRecordMapper;
@@ -54,5 +56,14 @@ public class WeightRecordManagerImpl extends AbstractManager<WeightRecord> imple
         WeightRecord condition = new WeightRecord();
         condition.setUserId(userId);
         return count(condition);
+    }
+
+    @Override
+    public List<WeightRecord> findAllByUserId(Long userId) {
+        Preconditions.checkArgument(userId != null);
+        WeightRecord condition = new WeightRecord();
+        condition.setUserId(userId);
+
+        return listByCondition(condition, Lists.newArrayList(new OrderCondition("`day`", "asc")));
     }
 }

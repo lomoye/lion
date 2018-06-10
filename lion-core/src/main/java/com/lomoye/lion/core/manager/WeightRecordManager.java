@@ -14,4 +14,6 @@ public interface WeightRecordManager extends DomainManager<Long,WeightRecord> {
     List<WeightRecord> search(Long userId, WeightRecordSearchModel searchModel);
 
     long searchCount(Long userId, WeightRecordSearchModel searchModel);
+
+    List<WeightRecord> findAllByUserId(Long userId);
 }
