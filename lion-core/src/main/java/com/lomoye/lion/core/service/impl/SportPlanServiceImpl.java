@@ -50,6 +50,8 @@ public class SportPlanServiceImpl implements SportPlanService {
 
         sportPlan.setSportItemIds(sportItemIds);
         sportPlan.setUserId(user.getId());
+        sportPlan.setStartTime(DateUtil.getDailyStartTime(sportPlan.getStartTime()));
+        sportPlan.setEndTime(DateUtil.getDailyEndTime(sportPlan.getEndTime()));
         sportPlanManager.save(sportPlan);
         return sportPlan;
     }
