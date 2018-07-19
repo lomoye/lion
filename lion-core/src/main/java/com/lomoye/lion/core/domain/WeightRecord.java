@@ -14,7 +14,19 @@ public class WeightRecord extends CommonDomain {
 
     private Date day;//日期
 
-    private Long weight;//体重*100  66.1 -> 6610
+    private Long weight;//体重*100  66.1 -> 6610 必填
+
+    private Long bust;//胸围*10 mm 可选
+
+    private Long waist;//腰围*10 mm 可选
+
+    private Long hip;//臀围*10 mm 可选
+
+    private Long arm;//臂围*10 mm 可选
+
+    private Long thigh;//大腿围*10 mm 可选
+
+    private Long calf;//小腿围*10 mm 可选
 
     private Integer isSport;//有无运动
 
@@ -59,6 +71,54 @@ public class WeightRecord extends CommonDomain {
 
     public void setWeight(Long weight) {
         this.weight = weight;
+    }
+
+    public Long getBust() {
+        return bust;
+    }
+
+    public void setBust(Long bust) {
+        this.bust = bust;
+    }
+
+    public Long getWaist() {
+        return waist;
+    }
+
+    public void setWaist(Long waist) {
+        this.waist = waist;
+    }
+
+    public Long getHip() {
+        return hip;
+    }
+
+    public void setHip(Long hip) {
+        this.hip = hip;
+    }
+
+    public Long getArm() {
+        return arm;
+    }
+
+    public void setArm(Long arm) {
+        this.arm = arm;
+    }
+
+    public Long getThigh() {
+        return thigh;
+    }
+
+    public void setThigh(Long thigh) {
+        this.thigh = thigh;
+    }
+
+    public Long getCalf() {
+        return calf;
+    }
+
+    public void setCalf(Long calf) {
+        this.calf = calf;
     }
 
     public Integer getIsSport() {
