@@ -17,8 +17,8 @@
     </sql>
 
     <sql id="selectAllField">
-        select id,user_id,`day`,weight,is_sport,is_breakfast,is_lunch,is_dinner,`desc`,create_time,modify_time
-         from weight_record
+        select id,user_id,`day`,weight,bust,waist,hip,arm,thigh,calf,is_sport,is_breakfast,is_lunch,
+        is_dinner,`desc`,create_time,modify_time from weight_record
     </sql>
 
     <select id="selectWithPage" parameterType="Map" resultType="WeightRecord">
@@ -51,10 +51,11 @@
 
     <insert id="insert" keyProperty="id" parameterType="WeightRecord">
         insert into weight_record
-        (user_id,`day`,weight,is_sport,is_breakfast,is_lunch,is_dinner,`desc`,create_time,modify_time)
+        (user_id,`day`,weight,bust,waist,hip,arm,thigh,calf,is_sport,is_breakfast,is_lunch,is_dinner,
+        `desc`,create_time,modify_time)
         VALUES
-        (#{userId},#{day},#{weight},#{isSport},#{isBreakfast},#{isLunch},#{isDinner},#{desc},#{createTime},
-        #{modifyTime})
+        (#{userId},#{day},#{weight},#{bust},#{waist},#{hip},#{arm},#{thigh},#{calf},#{isSport},#{isBreakfast},
+        #{isLunch},#{isDinner},#{desc},#{createTime},#{modifyTime})
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="WeightRecord">
@@ -62,6 +63,12 @@
         user_id=#{userId},
         `day`=#{day},
         weight=#{weight},
+        bust=#{bust},
+        waist=#{waist},
+        hip=#{hip},
+        arm=#{arm},
+        thigh=#{thigh},
+        calf=#{calf},
         is_sport=#{isSport},
         is_breakfast=#{isBreakfast},
         is_lunch=#{isLunch},
