@@ -51,7 +51,15 @@ public class SportPlanServiceImpl implements SportPlanService {
         sportPlan.setSportItemIds(sportItemIds);
         sportPlan.setUserId(user.getId());
         sportPlan.setStartTime(DateUtil.getDailyStartTime(sportPlan.getStartTime()));
-        sportPlan.setEndTime(DateUtil.getDailyEndTime(sportPlan.getEndTime()));
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(sportPlan.getEndTime());
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+
+        sportPlan.setEndTime(cal.getTime());
         sportPlanManager.save(sportPlan);
         return sportPlan;
     }
@@ -112,10 +120,6 @@ public class SportPlanServiceImpl implements SportPlanService {
         model.setReports(reports);
 
         return model;
-    }
-
-    public static void main(String[] args) {
-        Map<Date, Integer> map = new HashMap<>();
     }
 
     private Map<Date, List<SportItemLog>> initSportItemLogMap(Date startTime, Date endTime) {
