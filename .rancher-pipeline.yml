@@ -7,6 +7,6 @@ stages:
 - name: build
   steps:
   - runScriptConfig:
-      image: java:8
+      image: maven:3.5.0-jdk-8-alpine
       shellScript: mvn clean package -Pprod
 timeout: 60
