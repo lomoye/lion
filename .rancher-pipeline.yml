@@ -3,10 +3,8 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
-      shellScript: mkdir ~/.m2 && cp updates/settings.xml ~/.m2/ && cat ~/.m2/settings.xml
-- name: build
-  steps:
-  - runScriptConfig:
-      image: maven:3.5.0-jdk-8-alpine
-      shellScript: ls
+      shellScript: |-
+        cp updates/settings.xml /root/.m2/
+
+        mvn clean package -Pprod
 timeout: 60
