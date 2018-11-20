@@ -8,5 +8,5 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
-      shellScript: echo $M2_HOME;
+      shellScript: pwd
 timeout: 60
