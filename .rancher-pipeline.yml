@@ -8,5 +8,5 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
-      shellScript: cat /home/jenkins/workspace/pipeline_p-gcr8q-26/pom.xml
+      shellScript: echo $M2_HOME;
 timeout: 60
