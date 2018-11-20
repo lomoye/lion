@@ -3,7 +3,9 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
-      shellScript: mvn clean package -Pprod
+      shellScript: |-
+        cp updates/settings.xml  ~/.m2/settings.xml
+        mvn clean package -Pprod
 - name: build
   steps:
   - publishImageConfig:
