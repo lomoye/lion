@@ -8,8 +8,5 @@ stages:
   steps:
   - runScriptConfig:
       image: java:8
-      shellScript: |-
-        cat ~/.m2/settings.xml
-
-        mvn clean package -Pprod
+      shellScript: mvn clean package -Pprod
 timeout: 60
