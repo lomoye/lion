@@ -7,4 +7,11 @@ stages:
         cp updates/settings.xml /root/.m2/
 
         mvn clean package -Pprod
+- name: build
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: lomo/lion:dev
+      registry: registry.cn-hangzhou.aliyuncs.com
 timeout: 60
