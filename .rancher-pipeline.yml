@@ -11,5 +11,5 @@ stages:
         cat ~/.m2/settings.xml
 
         #编译
-        #mvn clean package -Pprod
+        mvn clean package -Pprod
 timeout: 60
