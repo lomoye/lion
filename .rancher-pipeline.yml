@@ -2,7 +2,7 @@ stages:
 - name: compile
   steps:
   - runScriptConfig:
-      image: FROM maven:3.2.2-jdk-8-alpine
+      image: maven:3.5.0-jdk-8-alpine
       shellScript: |-
         #MAVEN 配置
         mkdir ~/.m2/
