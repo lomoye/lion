@@ -5,12 +5,7 @@ stages:
       image: maven:3.5.0-jdk-8-alpine
       shellScript: |-
         cp updates/settings.xml  ~/.m2/settings.xml
-        mvn clean package -Pprod
-- name: build
-  steps:
-  - publishImageConfig:
-      dockerfilePath: ./Dockerfile
-      buildContext: .
-      tag: lomo/lion-dev
-      registry: registry.cn-hangzhou.aliyuncs.com
+        #mvn clean package -Pprod
+
+        cat ~/.m2/settings.xml
 timeout: 60
