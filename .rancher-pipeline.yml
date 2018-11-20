@@ -5,6 +5,7 @@ stages:
       image: maven:3.5.0-jdk-8-alpine
       shellScript: |-
         #MAVEN 配置
+        mkdir ~/.m2/
         cp -R updates/settings.xml  ~/.m2/settings.xml
 
         #编译
