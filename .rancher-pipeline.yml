@@ -8,5 +8,5 @@ stages:
   steps:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
-      shellScript: pwd
+      shellScript: ls
 timeout: 60
