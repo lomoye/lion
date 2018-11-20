@@ -4,8 +4,9 @@ stages:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
       shellScript: |-
-        cp updates/settings.xml  ~/.m2/settings.xml
-        #mvn clean package -Pprod
+        #MAVEN 配置
+        cp -R updates/settings.xml  ~/.m2/settings.xml
 
-        cat ~/.m2/settings.xml
+        #编译
+        mvn clean package -Pprod
 timeout: 60
