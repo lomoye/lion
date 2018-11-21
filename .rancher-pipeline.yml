@@ -1,5 +1,5 @@
 stages:
-- name: 构建+部署
+- name: compile
   steps:
   - runScriptConfig:
       image: maven:3.5.0-jdk-8-alpine
@@ -7,11 +7,15 @@ stages:
         cp updates/settings.xml /root/.m2/
 
         mvn clean package -Pprod
+- name: build
+  steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: lion:dev
       registry: registry.cn-hangzhou.aliyuncs.com
+- name: deploy
+  steps:
   - applyYamlConfig:
       path: ./deployment.yaml
 timeout: 60
