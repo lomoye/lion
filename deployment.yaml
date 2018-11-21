@@ -1,0 +1,62 @@
+﻿apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "3"
+    field.cattle.io/creatorId: user-tclq7
+    field.cattle.io/publicEndpoints: '[{"addresses":["10.211.55.9"],"port":30511,"protocol":"TCP","serviceName":"default:lion-nodeport","allNodes":true}]'
+  creationTimestamp: null
+  generation: 1
+  labels:
+    cattle.io/creator: norman
+    workload.user.cattle.io/workloadselector: deployment-default-lion
+  name: lion
+  selfLink: /apis/apps/v1beta2/namespaces/default/deployments/lion
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-lion
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: 2018-11-19T13:23:17Z
+        field.cattle.io/ports: '[[{"containerPort":8080,"dnsName":"lion-nodeport","kind":"NodePort","name":"8080tcp01","protocol":"TCP","sourcePort":0}]]'
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-lion
+    spec:
+      containers:
+      - image: registry.cn-hangzhou.aliyuncs.com/lomo/lion:v19
+        imagePullPolicy: Always
+        name: lion
+        ports:
+        - containerPort: 8080
+          name: 8080tcp01
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: aliyun
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
