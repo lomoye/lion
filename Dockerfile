@@ -1,4 +1,4 @@
-FROM maven:3.5.0-jdk-8-alpine
+FROM registry.cn-hangzhou.aliyuncs.com/lomo/java:8
 
 LABEL maintainer "834033206@qq.com"
 
