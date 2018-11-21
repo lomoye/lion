@@ -1,4 +1,4 @@
-FROM java
+FROM java:8
 
 LABEL maintainer "834033206@qq.com"
 
