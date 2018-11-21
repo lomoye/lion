@@ -1,4 +1,4 @@
-FROM java:8
+FROM maven:3.5.0-jdk-8-alpine
 
 LABEL maintainer "834033206@qq.com"
 
