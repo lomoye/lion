@@ -2,7 +2,7 @@ stages:
 - name: compile
   steps:
   - publishImageConfig:
-      dockerfilePath: ./Dockerfile
+      dockerfilePath: ./Dockerfile-pack
       buildContext: .
       tag: lomo/test
       registry: registry.cn-hangzhou.aliyuncs.com
