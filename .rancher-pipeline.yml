@@ -1,21 +1,9 @@
 stages:
 - name: compile
   steps:
-  - runScriptConfig:
-      image: maven:3.5.0-jdk-8-alpine
-      shellScript: |-
-        cp updates/settings.xml /root/.m2/
-
-        mvn clean package -Pprod
-- name: build
-  steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: lion:dev
-      registry: 127.0.0.1:34786
-- name: deploy
-  steps:
-  - applyYamlConfig:
-      path: ./deployment.yaml
+      tag: lomo/test
+      registry: registry.cn-hangzhou.aliyuncs.com
 timeout: 60
