@@ -1,4 +1,4 @@
-FROM java:8
+FROM registry.cn-hangzhou.aliyuncs.com/javacspring/java8
 
 LABEL maintainer "834033206@qq.com"
 
